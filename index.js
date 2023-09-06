@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const menuRouter = require("./controllers/menus")
 require("dotenv").config();
+const serverless = require('serverless-http');
 
 const app = express();
 app.use(cors());
@@ -22,7 +23,7 @@ mongoose.connect(process.env.MONGO_URL)
         console.log(error)
     })
 
-app.get("/", (req, res) => {
+app.get("/home", (req, res) => {
     res.status(200).json('<h1>Welcome to the Banjos App</h1>');
 })
 
@@ -33,3 +34,7 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
 })
+
+const handler = serverless(app)
+
+module.export = handler;
